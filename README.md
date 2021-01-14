@@ -6,6 +6,35 @@ bwa的使用流程
 $ bwa index -a bwtsw human_hg18_ref.fa（human参考基因组19）
 
 2.对reads进行mapping
+
+https://blog.csdn.net/weixin_43569478/article/details/108079100
+1. BWA-backtrack 算法
+对应的子命令为aln/samse/sample
+单端数据用法如下：
+
+bwa aln ref.fa reads.fq > aln_sa.sai
+bwa samse ref.fa aln_sa.sai reads.fq > aln-se.sam
+
+双端数据用法如下：
+
+bwa aln ref.fa read1.fq > aln1_sa.sai
+bwa aln ref.fa read2.fq > aln2_sa.sai
+bwa sampe ref.fa aln_sa1.sai aln_sa2.sai read1.fq read2.fq > aln-pe.sam
+
+2. BWA-SW 算法
+对应的子命令为bwasw, 基本用法如下
+
+bwa bwasw ref.fa reads.fq > aln-se.sam
+bwa bwasw ref.fa read1.fq read2.fq > aln-pe.sam
+
+3. BWA-MEM` 算法
+对应的子命令为mem, 基本用法如下
+
+bwa mem ref.fa reads.fq > aln-se.sam
+bwa mem ref.fa read1.fq read2.fq > aln-pe.sam
+
+
+
 如果是pair-end 数据（leftRead.fastq和rightRead.fastq）两个文件分别处理
 $ bwa aln reference.fa leftRead.fastq leftRead.sai
 $ bwa aln reference.fa rightRead.fastq rightRead.sai
