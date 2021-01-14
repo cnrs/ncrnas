@@ -4,6 +4,7 @@ bwa的使用流程
 1.建立 Index
 根据reference genome data(e.g. reference.fa) 建立 Index File
 $ bwa index -a bwtsw human_hg18_ref.fa（human参考基因组19）
+
 2.对reads进行mapping
 如果是pair-end 数据（leftRead.fastq和rightRead.fastq）两个文件分别处理
 $ bwa aln reference.fa leftRead.fastq leftRead.sai
