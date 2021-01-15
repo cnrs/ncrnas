@@ -7,7 +7,7 @@ $ bwa index -a bwtsw mm9.fa
 2.对reads进行mapping
 cat Day3_1_1.fq  Day3_2_1.fq  Day3_3_1.fq  Day7_1_1.fq  Day7_2_1.fq  Day7_3_1.fq  WT5_1_1.fq  WT5_2_1.fq  WT5_3_1.fq > all_clean_1.fq & sleep 1s
 cat Day3_1_2.fq  Day3_2_2.fq  Day3_3_2.fq  Day7_1_2.fq  Day7_2_2.fq  Day7_3_2.fq  WT5_1_2.fq  WT5_2_2.fq  WT5_3_2.fq > all_clean_2.fq & sleep 1s
-bwa mem /usr/local/db/ucsc/mouse/mm9.fa all_clean_1.fq all_clean_2.fq > all_clean.sam
+bwa mem -t 36 /usr/local/db/ucsc/mouse/mm9.fa all_clean_1.fq all_clean_2.fq > all_clean_s.sam
 
 https://blog.csdn.net/weixin_43569478/article/details/108079100
 1. BWA-backtrack 算法
