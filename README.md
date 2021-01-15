@@ -45,7 +45,7 @@ https://github.com/marvin-jens/find_circ
 
 
 
-bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mouse/mm9 -q -1 all_clean_1.fq -2 all_clean_2.fq -S all_bowtie2.sam
+#bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mouse/mm9 -q -1 all_clean_1.fq -2 all_clean_2.fq -S all_bowtie2.sam
 
 #samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp
 
@@ -53,6 +53,8 @@ bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mo
 
 #find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=my_test_sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa > find_circ/splice_sites.bed
 
+
+bowtie2 -p 72 --score-min=C,-15,0 --reorder --mm -x /usr/local/db/ucsc/mouse/mm9 -q -1 all_clean_1.fq -2 all_clean_2.fq -S all_bowtie2.sam
 find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa < all_bowtie2.sam > find_circ/splice_sites.bed
 
 
