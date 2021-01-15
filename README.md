@@ -1,5 +1,10 @@
 # circrna
 
+conda create -n circrna python=2.7
+
+
+
+
 bwa的使用流程
 1.建立 Index
 $ bwa index -a bwtsw mm9.fa
