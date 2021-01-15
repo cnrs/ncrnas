@@ -87,11 +87,17 @@ https://www.cnblogs.com/yanjiamin/p/11973687.html
 1 /path/to/merge_bed.py sample1.bed sample2.bed [...] >combined.bed
 
 
-#bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mouse/mm9 -q -1 all_clean_1.fq -2 all_clean_2.fq -S all_bowtie2.sam
+bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mouse/mm9 -q -1 all_clean_1.fq -2 all_clean_2.fq -S all_bowtie2.sam
 
-#samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp
+samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp
 
-#samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp
+samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp
+
+
+samtools view -hf 4 all_bowtie2.bam | samtools view -Sb - > unmapped.bam
+
+unmapped2anchors.py unmapped.bam | gzip > anchors.fq.gz
+
 
 #find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=my_test_sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa > find_circ/splice_sites.bed
 
