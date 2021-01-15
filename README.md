@@ -59,3 +59,7 @@ perl CIRI.pl -I in.sam -O output.ciri -F ref.fa
 
 perl CIRI2.pl -T 36 -I all_clean.sam -O CIRI.ciri -F /usr/local/db/ucsc/mouse/mm9.fa
 
+bowtie2-build --threads 36 mm9.fa mm9 
+
+
+
