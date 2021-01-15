@@ -54,7 +54,6 @@ $ bwa samse -f single.sam reference.fa single.sai single.fastq
 
 https://sourceforge.net/projects/ciri/files/CIRI2/CIRI_v2.0.6.zip
 
-
 perl CIRI.pl -I in.sam -O output.ciri -F ref.fa
 
 perl CIRI2.pl -T 36 -I all_clean.sam -O CIRI.ciri -F /usr/local/db/ucsc/mouse/mm9.fa
@@ -66,6 +65,9 @@ bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mo
 samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp
 
 samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp
+
+https://github.com/marvin-jens/find_circ
+
 
 
 
