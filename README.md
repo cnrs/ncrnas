@@ -51,8 +51,8 @@ samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp
 
 samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp
 
-find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=my_test_sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa > find_circ/splice_sites.bed
+#find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=my_test_sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa > find_circ/splice_sites.bed
 
-
+find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa -B all_bowtie2.bam --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa > find_circ/splice_sites.bed
 
 
