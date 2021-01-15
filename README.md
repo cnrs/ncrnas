@@ -57,5 +57,5 @@ https://sourceforge.net/projects/ciri/files/CIRI2/CIRI_v2.0.6.zip
 
 perl CIRI.pl -I in.sam -O output.ciri -F ref.fa
 
-perl CIRI.pl -I all_clean.sam -O CIRI.ciri -F /usr/local/db/ucsc/mouse/mm9.fa
+perl CIRI2.pl -I all_clean.sam -O CIRI.ciri -F /usr/local/db/ucsc/mouse/mm9.fa
 
