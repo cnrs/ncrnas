@@ -35,4 +35,8 @@ https://github.com/marvin-jens/find_circ
 
 
 
+find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=my_test_sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa > find_circ/splice_sites.bed
+
+
+
 
