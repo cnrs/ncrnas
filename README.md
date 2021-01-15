@@ -2,6 +2,11 @@
 
 conda create -n circrna python=2.7
 
+conda activate circrna
+
+conda install samtools hisat2 bwa bowtie2
+
+
 
 
 
