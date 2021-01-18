@@ -78,7 +78,7 @@ https://www.cnblogs.com/yanjiamin/p/11973687.html
 
 5.过滤掉长度大于100kb的circRNA,这里的100kb为基因组长度，直接用环状RNA的头尾相减即可
 
-1 grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | /path/to/maxlength.py 100000 > find_circ.candidates.bed
+grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | /path/to/maxlength.py 100000 > find_circ.candidates.bed
  
 
 7.分析多个样本
@@ -98,5 +98,9 @@ samtools view -hf 4 all_bowtie2.bam | samtools view -Sb - > unmapped.bam
 
 unmapped2anchors.py unmapped.bam | gzip > anchors.fq.gz
 
-bowtie2 -p 36 --score-min=C,-15,0 --reorder --mm -q -U anchors.fq.gz -x /usr/local/db/ucsc/mouse/mm9 | find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa > find_circ/splice_sites.bed
+bowtie2 -p 36 --score-min=C,-15,0 --reorder --mm -q -U anchors.fq.gz -x /usr/local/db/ucsc/mouse/mm9 -S CIRI.sam
+
+find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa < CIRI.sam > find_circ/splice_sites.bed
+
+grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | maxlength.py 100000 > find_circ.candidates.bed
 
