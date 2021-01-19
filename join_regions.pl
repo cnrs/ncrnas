@@ -16,7 +16,7 @@ while(<IN>){
 	my $circrna_s  = $array[2];
 	my $circrna_e  = $array[3];
 	my $strand     = $array[10];
-	
+	next unless ($circrna_s =~ /\d+/);
 	
 	my $circ_pos = "$chromesome\:$strand";
 	push (@{$hash{$circ_pos}}, [$circrna_s, $circrna_e])
@@ -33,6 +33,7 @@ while(<IN>){
 	my $circrna_s  = $array[1];
 	my $circrna_e  = $array[2];
 	my $strand     = $array[5];
+	next unless ($circrna_s =~ /\d+/);
 	
 	my $circ_pos = "$chromesome\:$strand";
 	push (@{$hash{$circ_pos}}, [$circrna_s, $circrna_e, $chromesome, $strand])
@@ -40,7 +41,9 @@ while(<IN>){
 close(IN);
 
 my %circs = ();
+
 print "chromesome\tcirc_start\tcirc_end\tcircrna_id\tlength\tstrand\n";
+
 foreach my $circ_pos (keys %hash) {
 	my $circ_s = 0;
 	my $circ_e = 0;
