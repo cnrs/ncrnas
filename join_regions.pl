@@ -44,7 +44,7 @@ close(IN);
 
 # merge circRNAs whthin 10 bp;
 my %circs = ();
-
+my $approximate_len = 10;
 foreach my $chromesome (keys %hash) {
 	my $circ_s_min = 0;
 	my $circ_e_max = 0;
@@ -56,7 +56,7 @@ foreach my $chromesome (keys %hash) {
 		if ($circ_s_min == 0){
 			$circ_s_min = $circrna_s;
 		}
-		elsif ($circ_s_min >= $circrna_s - 10 && $circ_s_min <= $circrna_s + 10){
+		elsif ($circ_s_min >= $circrna_s - $approximate_len && $circ_s_min <= $circrna_s + $approximate_len){
 			$circ_s_min = min($circ_s_min, $circrna_s);
 		}
 		
@@ -64,19 +64,19 @@ foreach my $chromesome (keys %hash) {
 		if ($circ_e_max == 0){
 			$circ_e_max = $circrna_e;
 		}
-		elsif ($circ_e_max >= $circrna_e - 10 && $circ_e_max <= $circrna_e + 10){
+		elsif ($circ_e_max >= $circrna_e - $approximate_len && $circ_e_max <= $circrna_e + $approximate_len){
 			$circ_e_max = max($circ_e_max, $circrna_e);
 		}
 		
 		
-		if ($circ_s_min < $circrna_s - 10){
+		if ($circ_s_min < $circrna_s - $approximate_len){
 			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
 			$circs{$chromesome}{$circ_id} = 1;
 			#push (@{$circs{$chromesome}}, [$circ_s_min, $circ_e_max, $strand]);
 			$circ_s_min = $circrna_s;
 			$circ_e_max = $circrna_e;
 		}
-		if($circ_e_max < $circrna_e - 10 || $circ_e_max > $circrna_e + 10){
+		if($circ_e_max < $circrna_e - $approximate_len || $circ_e_max > $circrna_e + $approximate_len){
 			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
 			$circs{$chromesome}{$circ_id} = 1;
 			$circ_s_min = $circrna_s;
@@ -99,7 +99,7 @@ foreach my $chromesome (keys %hash) {
 		if ($circ_s_min == 0){
 			$circ_s_min = $circrna_s;
 		}
-		elsif ($circ_s_min >= $circrna_s - 10 && $circ_s_min <= $circrna_s + 10){
+		elsif ($circ_s_min >= $circrna_s - $approximate_len && $circ_s_min <= $circrna_s + $approximate_len){
 			$circ_s_min = min($circ_s_min, $circrna_s);
 		}
 		
@@ -107,18 +107,18 @@ foreach my $chromesome (keys %hash) {
 		if ($circ_e_max == 0){
 			$circ_e_max = $circrna_e;
 		}
-		elsif ($circ_e_max >= $circrna_e - 10 && $circ_e_max <= $circrna_e + 10){
+		elsif ($circ_e_max >= $circrna_e - $approximate_len && $circ_e_max <= $circrna_e + $approximate_len){
 			$circ_e_max = max($circ_e_max, $circrna_e);
 		}
 		
 		
-		if ($circ_s_min < $circrna_s - 10){
+		if ($circ_s_min < $circrna_s - $approximate_len){
 			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
 			$circs{$chromesome}{$circ_id} = 1;
 			$circ_s_min = $circrna_s;
 			$circ_e_max = $circrna_e;
 		}
-		if($circ_e_max < $circrna_e - 10 || $circ_e_max > $circrna_e + 10){
+		if($circ_e_max < $circrna_e - $approximate_len || $circ_e_max > $circrna_e + $approximate_len){
 			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
 			$circs{$chromesome}{$circ_id} = 1;
 			$circ_s_min = $circrna_s;
