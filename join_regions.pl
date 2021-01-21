@@ -83,8 +83,10 @@ foreach my $chromesome (keys %hash) {
 			$circ_e_max = $circrna_e;
 		}
 	}
-	my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
-	$circs{$chromesome}{$circ_id} = 1;
+	unless ($circ_s_min == 0){
+		my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+		$circs{$chromesome}{$circ_id} = 1;
+	}
 }
 
 
@@ -125,8 +127,10 @@ foreach my $chromesome (keys %hash) {
 			$circ_e_max = $circrna_e;
 		}
 	}
-	my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
-	$circs{$chromesome}{$circ_id} = 1;
+	unless ($circ_s_min == 0){
+		my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+		$circs{$chromesome}{$circ_id} = 1;
+	}
 }
 
 print "chromesome\tcirc_start\tcirc_end\tcircrna_id\tlength\tstrand\n";
