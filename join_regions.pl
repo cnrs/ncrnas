@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use List::Util qw/max min sum maxstr minstr shuffle/;
+
 
 die "Usage: perl $0 CIRI.ciri FIND_CIRC.candidates.bed > CIRC.txt\n" unless (@ARGV == 2);
 
@@ -18,8 +20,8 @@ while(<IN>){
 	my $strand     = $array[10];
 	next unless ($circrna_s =~ /\d+/);
 	
-	my $circ_pos = "$chromesome\:$strand";
-	push (@{$hash{$circ_pos}}, [$circrna_s, $circrna_e])
+	#my $circ_pos = "$chromesome\:$strand";
+	push (@{$hash{$chromesome}}, [$circrna_s, $circrna_e, $strand])
 	
 }
 close(IN);
@@ -36,60 +38,106 @@ while(<IN>){
 	next unless ($circrna_s =~ /\d+/);
 	
 	my $circ_pos = "$chromesome\:$strand";
-	push (@{$hash{$circ_pos}}, [$circrna_s, $circrna_e, $chromesome, $strand])
+	push (@{$hash{$chromesome}}, [$circrna_s, $circrna_e, $strand])
 }
 close(IN);
 
+# merge circRNAs whthin 10 bp;
 my %circs = ();
 
-print "chromesome\tcirc_start\tcirc_end\tcircrna_id\tlength\tstrand\n";
-
-foreach my $circ_pos (keys %hash) {
-	my $circ_s = 0;
-	my $circ_e = 0;
-	my ($chromesome, $strand) = $circ_pos =~ /^(\S+)\:(\S)$/;
-	my $circrna_id = "";
-	my $lens = 0;
+foreach my $chromesome (keys %hash) {
+	my $circ_s_min = 0;
+	my $circ_e_max = 0;
+	my $strand = "+";
 	
-	foreach my $ele (sort {$$a[0] <=> $$b[0]} @{$hash{$circ_pos}}){
-		my $p_s = $$ele[0];
-		my $p_e = $$ele[1];
-		#my $chromesome = $$ele[2];
-		#my $strand     = $$ele[3];
-		
-		if ($circ_s == 0){
-			$circ_s = $p_s;
-			$circ_e = $p_e;
+	foreach my $e (sort {$$a[0] <=> $$b[0]} @{$hash{$chromesome}}){
+		my ($circrna_s, $circrna_e, $str_s) = ($$e[0], $$e[1], $$e[2]);
+		next unless ($strand eq $str_s);
+		if ($circ_s_min == 0){
+			$circ_s_min = $circrna_s;
+		}
+		elsif ($circ_s_min >= $circrna_s - 10 && $circ_s_min <= $circrna_s + 10){
+			$circ_s_min = min($circ_s_min, $circrna_s);
 		}
 		
-		if ($circ_e >= $p_s){
-			if ($circ_e < $p_e){
-				$circ_e = $p_e;
-			}
-		}
-		elsif($circ_e < $p_s){
-			$circrna_id = "$chromesome\:$circ_s\-$circ_e\:$strand"; 
-			$circs{$circrna_id}{chromesome} = $chromesome;
-			$circs{$circrna_id}{circ_s}     = $circ_s;
-			$circs{$circrna_id}{circ_e}     = $circ_e;
-			$circs{$circrna_id}{strand}     = $strand;
-			$lens = int (($circ_e - $circ_s +1) / 1000);
-			print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\t$lens\t$strand\n";
-			#sleep (1);
-			$circ_s = $p_s;
-			$circ_e = $p_e;
-		}
-		#warn "$circ_pos\t$p_s\t$p_e\n";
 		
+		if ($circ_e_max == 0){
+			$circ_e_max = $circrna_e;
+		}
+		elsif ($circ_e_max >= $circrna_e - 10 && $circ_e_max <= $circrna_e + 10){
+			$circ_e_max = max($circ_e_max, $circrna_e);
+		}
+		
+		
+		if ($circ_s_min < $circrna_s - 10){
+			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+			$circs{$chromesome}{$circ_id} = 1;
+			#push (@{$circs{$chromesome}}, [$circ_s_min, $circ_e_max, $strand]);
+			$circ_s_min = $circrna_s;
+			$circ_e_max = $circrna_e;
+		}
+		if($circ_e_max < $circrna_e - 10 || $circ_e_max > $circrna_e + 10){
+			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+			$circs{$chromesome}{$circ_id} = 1;
+			$circ_s_min = $circrna_s;
+			$circ_e_max = $circrna_e;
+		}
 	}
+	my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+	$circs{$chromesome}{$circ_id} = 1;
+}
+
+
+foreach my $chromesome (keys %hash) {
+	my $circ_s_min = 0;
+	my $circ_e_max = 0;
+	my $strand = "-";
 	
-	$circrna_id = "$chromesome\:$circ_s\-$circ_e\:$strand"; 
-	$circs{$circrna_id}{chromesome} = $chromesome;
-	$circs{$circrna_id}{circ_s}     = $circ_s;
-	$circs{$circrna_id}{circ_e}     = $circ_e;
-	$circs{$circrna_id}{strand}     = $strand;
-	$lens = int (($circ_e - $circ_s +1) / 1000);
-	print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\t$lens\t$strand\n";
-	#sleep (1);
+	foreach my $e (sort {$$a[0] <=> $$b[0]} @{$hash{$chromesome}}){
+		my ($circrna_s, $circrna_e, $str_s) = ($$e[0], $$e[1], $$e[2]);
+		next unless ($strand eq $str_s);
+		if ($circ_s_min == 0){
+			$circ_s_min = $circrna_s;
+		}
+		elsif ($circ_s_min >= $circrna_s - 10 && $circ_s_min <= $circrna_s + 10){
+			$circ_s_min = min($circ_s_min, $circrna_s);
+		}
+		
+		
+		if ($circ_e_max == 0){
+			$circ_e_max = $circrna_e;
+		}
+		elsif ($circ_e_max >= $circrna_e - 10 && $circ_e_max <= $circrna_e + 10){
+			$circ_e_max = max($circ_e_max, $circrna_e);
+		}
+		
+		
+		if ($circ_s_min < $circrna_s - 10){
+			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+			$circs{$chromesome}{$circ_id} = 1;
+			$circ_s_min = $circrna_s;
+			$circ_e_max = $circrna_e;
+		}
+		if($circ_e_max < $circrna_e - 10 || $circ_e_max > $circrna_e + 10){
+			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+			$circs{$chromesome}{$circ_id} = 1;
+			$circ_s_min = $circrna_s;
+			$circ_e_max = $circrna_e;
+		}
+	}
+	my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+	$circs{$chromesome}{$circ_id} = 1;
+}
+
+print "chromesome\tcirc_start\tcirc_end\tcircrna_id\tlength\tstrand\n";
+foreach my $chromesome (keys %circs) {
+	foreach my $e (keys %{$circs{$chromesome}}) {
+		my ($circ_s, $circ_e, $strand) = $e =~ /^(\d+)\-(\d+)\:(\S)$/;
+		my $circrna_id = "$chromesome\:$circ_s\-$circ_e\:$strand";
+		my $lens = ($circ_e - $circ_s +1) / 1000;
+		
+		print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\t$lens\t$strand\n";
+		#sleep (1);
+	}
 }
 
