@@ -72,7 +72,6 @@ foreach my $chromesome (keys %hash) {
 		if ($circ_s_min < $circrna_s - $approximate_len){
 			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
 			$circs{$chromesome}{$circ_id} = 1;
-			#push (@{$circs{$chromesome}}, [$circ_s_min, $circ_e_max, $strand]);
 			$circ_s_min = $circrna_s;
 			$circ_e_max = $circrna_e;
 		}
