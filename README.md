@@ -151,3 +151,6 @@ ll *.sam | awk '{print "perl /usr/local/.prog/perlbin/sam_cnt_pe.pl " $9 " > " $
 perl RPKM.pl GRCH38P13GENE_PROTEIN_CODING.fa GRCH38P13GENE_PROTEIN_CODING.tab > GRCH38P13GENE_PROTEIN_CODING.RPKM.txt
 
 bedtools multicov -bams Day3_1.bam  Day3_2.bam  Day3_3.bam  Day7_1.bam  Day7_2.bam  Day7_3.bam WT5_1.bam  WT5_2.bam  WT5_3.bam -bed CIRC.bed > CIRC.tab
+
+perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > CIRC.bed.anno.xls
+
