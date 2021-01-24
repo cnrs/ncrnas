@@ -7,7 +7,7 @@ use List::Util qw/max min sum maxstr minstr shuffle/;
 die "Usage: perl $0 CIRI.ciri FIND_CIRC.candidates.bed > CIRC.bed\n" unless (@ARGV == 2);
 
 my %hash = ();
-my $lens_cut = 5000;
+my $lens_cut = 3000;
 my $cnt = 0;
 
 open (IN, "$ARGV[0]") || die "cannot open $ARGV[0]\n";
