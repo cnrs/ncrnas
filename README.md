@@ -104,3 +104,19 @@ find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=sampl
 
 grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | maxlength.py 100000 > find_circ.candidates.bed
 
+
+
+
+ll *_1.fq | awk '{print "nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 " $9 " -2 " $9 ".2 -S " $9 ".sam > " $9 ".txt 2>&1 & sleep 1s"}' | sed -e 's/_1.fq.2/_2.fq/g' | sed -e 's/_1.fq.sam/.sam/g' | sed -e 's/_1.fq.txt/.txt/g'
+
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 Day3_1_1.fq -2 Day3_1_2.fq -S Day3_1.sam > Day3_1.txt 2>&1 & sleep 1s
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 Day3_2_1.fq -2 Day3_2_2.fq -S Day3_2.sam > Day3_2.txt 2>&1 & sleep 1s
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 Day3_3_1.fq -2 Day3_3_2.fq -S Day3_3.sam > Day3_3.txt 2>&1 & sleep 1s
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 Day7_1_1.fq -2 Day7_1_2.fq -S Day7_1.sam > Day7_1.txt 2>&1 & sleep 1s
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 Day7_2_1.fq -2 Day7_2_2.fq -S Day7_2.sam > Day7_2.txt 2>&1 & sleep 1s
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 Day7_3_1.fq -2 Day7_3_2.fq -S Day7_3.sam > Day7_3.txt 2>&1 & sleep 1s
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 WT5_1_1.fq -2 WT5_1_2.fq -S WT5_1.sam > WT5_1.txt 2>&1 & sleep 1s
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 WT5_2_1.fq -2 WT5_2_2.fq -S WT5_2.sam > WT5_2.txt 2>&1 & sleep 1s
+nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 WT5_3_1.fq -2 WT5_3_2.fq -S WT5_3.sam > WT5_3.txt 2>&1 & sleep 1s
+
+
