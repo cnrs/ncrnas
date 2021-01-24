@@ -142,3 +142,12 @@ samtools sort -o Day7_3.bam Day7_3.sam.tmp & sleep 1s
 samtools sort -o WT5_1.bam WT5_1.sam.tmp & sleep 1s
 samtools sort -o WT5_2.bam WT5_2.sam.tmp & sleep 1s
 samtools sort -o WT5_3.bam WT5_3.sam.tmp & sleep 1s
+
+ll *.bam | awk '{print "samtools index " $9 " & sleep 1s"}'
+
+bedtools multicov -bams AR1.bam AR3.bam ORF.bam TYH.bam -bed GRCH38P13GENE_PROTEIN_CODING.bed > GRCH38P13GENE_PROTEIN_CODING.tab
+
+ll *.sam | awk '{print "perl /usr/local/.prog/perlbin/sam_cnt_pe.pl " $9 " > " $9 ".txt & sleep 1s"}'
+perl RPKM.pl GRCH38P13GENE_PROTEIN_CODING.fa GRCH38P13GENE_PROTEIN_CODING.tab > GRCH38P13GENE_PROTEIN_CODING.RPKM.txt
+
+
