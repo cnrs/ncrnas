@@ -4,10 +4,11 @@ use warnings;
 use List::Util qw/max min sum maxstr minstr shuffle/;
 
 
-die "Usage: perl $0 CIRI.ciri FIND_CIRC.candidates.bed > CIRC.txt\n" unless (@ARGV == 2);
+die "Usage: perl $0 CIRI.ciri FIND_CIRC.candidates.bed > CIRC.bed\n" unless (@ARGV == 2);
 
 my %hash = ();
 my $lens_cut = 5000;
+my $cnt = 0;
 
 open (IN, "$ARGV[0]") || die "cannot open $ARGV[0]\n";
 while(<IN>){
@@ -25,8 +26,12 @@ while(<IN>){
 	#my $circ_pos = "$chromesome\:$strand";
 	push (@{$hash{$chromesome}}, [$circrna_s, $circrna_e, $strand]);
 	#warn "$chromesome, $circrna_s, $circrna_e, $strand\n";
+	$cnt ++;
 }
 close(IN);
+
+warn "$cnt\n";
+$cnt = 0;
 
 open (IN, "$ARGV[1]") || die "cannot open $ARGV[1]\n";
 while(<IN>){
@@ -43,8 +48,11 @@ while(<IN>){
 	my $circ_pos = "$chromesome\:$strand";
 	push (@{$hash{$chromesome}}, [$circrna_s, $circrna_e, $strand]);
 	#warn "$chromesome, $circrna_s, $circrna_e, $strand\n";
+	$cnt ++;
 }
 close(IN);
+
+warn "$cnt\n";
 
 # merge circRNAs
 # cover more that 90% sequences of shorter seuqences
