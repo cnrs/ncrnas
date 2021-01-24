@@ -131,4 +131,14 @@ samtools view -bS WT5_1.sam > WT5_1.sam.tmp  & sleep 1s
 samtools view -bS WT5_2.sam > WT5_2.sam.tmp  & sleep 1s
 samtools view -bS WT5_3.sam > WT5_3.sam.tmp  & sleep 1s
 
+ll *.tmp | awk '{print "samtools sort -o " $9 ".bam " $9 " & sleep 1s"}' | sed -e 's/sam.tmp.bam/bam/g'
 
+samtools sort -o Day3_1.bam Day3_1.sam.tmp & sleep 1s
+samtools sort -o Day3_2.bam Day3_2.sam.tmp & sleep 1s
+samtools sort -o Day3_3.bam Day3_3.sam.tmp & sleep 1s
+samtools sort -o Day7_1.bam Day7_1.sam.tmp & sleep 1s
+samtools sort -o Day7_2.bam Day7_2.sam.tmp & sleep 1s
+samtools sort -o Day7_3.bam Day7_3.sam.tmp & sleep 1s
+samtools sort -o WT5_1.bam WT5_1.sam.tmp & sleep 1s
+samtools sort -o WT5_2.bam WT5_2.sam.tmp & sleep 1s
+samtools sort -o WT5_3.bam WT5_3.sam.tmp & sleep 1s
