@@ -119,4 +119,16 @@ nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 WT5_1
 nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 WT5_2_1.fq -2 WT5_2_2.fq -S WT5_2.sam > WT5_2.txt 2>&1 & sleep 1s
 nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 WT5_3_1.fq -2 WT5_3_2.fq -S WT5_3.sam > WT5_3.txt 2>&1 & sleep 1s
 
+ll *.sam | awk '{print "samtools view -bS " $9 " > " $9 ".tmp  & sleep 1s"}'
+
+samtools view -bS Day3_1.sam > Day3_1.sam.tmp  & sleep 1s
+samtools view -bS Day3_2.sam > Day3_2.sam.tmp  & sleep 1s
+samtools view -bS Day3_3.sam > Day3_3.sam.tmp  & sleep 1s
+samtools view -bS Day7_1.sam > Day7_1.sam.tmp  & sleep 1s
+samtools view -bS Day7_2.sam > Day7_2.sam.tmp  & sleep 1s
+samtools view -bS Day7_3.sam > Day7_3.sam.tmp  & sleep 1s
+samtools view -bS WT5_1.sam > WT5_1.sam.tmp  & sleep 1s
+samtools view -bS WT5_2.sam > WT5_2.sam.tmp  & sleep 1s
+samtools view -bS WT5_3.sam > WT5_3.sam.tmp  & sleep 1s
+
 
