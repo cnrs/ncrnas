@@ -154,3 +154,6 @@ bedtools multicov -bams Day3_1.bam  Day3_2.bam  Day3_3.bam  Day7_1.bam  Day7_2.b
 
 perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > CIRC.bed.anno.xls
 
+Rscript chippeakanno.R CIRC.bed
+
+
