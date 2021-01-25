@@ -157,3 +157,5 @@ perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > 
 Rscript chippeakanno.R CIRC.bed
 
 
+awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15 "\n"}' CIRC.tab > CIRC.txt
+
