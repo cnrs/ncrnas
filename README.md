@@ -159,3 +159,6 @@ Rscript chippeakanno.R CIRC.bed
 
 awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15 "\n"}' CIRC.tab > CIRC.txt
 
+perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY3_vs_WT5.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.txt
+perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY7_vs_WT5.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.txt
+
