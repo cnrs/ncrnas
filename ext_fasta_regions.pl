@@ -4,45 +4,34 @@ use warnings;
 use List::Util qw/max min sum maxstr minstr shuffle/;
 
 
-die "Usage: perl $0 CIRI.ciri FIND_CIRC.candidates.bed /usr/local/db/ucsc/mouse/mm9.fa > circRNAs.fa\n" unless (@ARGV == 3);
+die "Usage: perl $0 CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > circRNAs.fa\n" unless (@ARGV == 2);
 
 my %hash = ();
 open (IN, "$ARGV[0]") || die "cannot open $ARGV[0]\n";
 while(<IN>){
 	chomp;
+	my $s = $_;
 	#circRNA_ID      chr     circRNA_start   circRNA_end     #junction_reads SM_MS_SMS       #non_junction_reads     junction_reads_ratio circRNA_type    gene_id strand  junction_reads_ID
-	my @array = split (/\t/, $_);
-	my $chromesome = $array[1];
-	my $circrna_s  = $array[2];
-	my $circrna_e  = $array[3];
-	my $strand     = $array[10];
-	next unless ($circrna_s =~ /\d+/);
-	
-	my $circ = "$circrna_s\-$circrna_e\:$strand";
-	$hash{$chromesome}{$circ} = 1;
-}
-close(IN);
-
-open (IN, "$ARGV[1]") || die "cannot open $ARGV[1]\n";
-while(<IN>){
-	chomp;
-	# chrom start   end     name    n_reads strand  n_uniq  uniq_bridges    best_qual_left  best_qual_right tissues tiss_counts  edits   anchor_overlap  breakpoints     signal  strandmatch     category
-	my @array = split (/\t/, $_);
-	my $chromesome = $array[0];
-	my $circrna_s  = $array[1];
-	my $circrna_e  = $array[2];
-	my $strand     = $array[5];
-	next unless ($circrna_s =~ /\d+/);
-	
-	my $circ = "$circrna_s\-$circrna_e\:$strand";
-	$hash{$chromesome}{$circ} = 1;
+	my $circ       = "";
+	my $chromesome = "";
+	#next unless ($circrna_s =~ /\d+/);
+	#chr10:10452447-10452958:+
+	if ($s =~ /^(\S+)\:(\d+\-\d+\:\S)\s+/){
+		$chromesome = $1;
+		$circ       = $2;
+		$hash{$chromesome}{$circ} = 1;
+	}
+	else{
+		warn "not match: $s\n";
+	}
+	#warn "$chromesome\: $circ\n";
 }
 close(IN);
 
 my %genome = ();
 {
 	local $/ = '>';
-	open (IN, "$ARGV[2]") || die "cannot open $ARGV[2]\n";
+	open (IN, "$ARGV[1]") || die "cannot open $ARGV[1]\n";
 	while(<IN>){
 		chomp;
 		my ($name, $sequence) = split (/\n/, $_, 2);
