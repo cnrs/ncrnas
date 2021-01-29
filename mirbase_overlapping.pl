@@ -41,7 +41,7 @@ while(<IN>){
 	#chrom start   end     strand
 	#chr10:10452447-10452958:+
 	if ($s =~ /^GENEID\s+/){
-		print "$s\tcircBase_id\n";
+		print "\tcircBase_ID";
 	}
 	elsif ($s =~ /^(\S+)\:(\d+)\-(\d+)\:(\S)\s+/){
 		my $chromosome = $1;
@@ -51,6 +51,7 @@ while(<IN>){
 		my $circ_l = $circ_e - $circ_s + 1;
 		
 		my $circ = "";
+		my %tmp = ();
 		foreach my $circ_id (keys %hash){
 			my $c = $hash{$circ_id}{c};
 			my $s = $hash{$circ_id}{s};
@@ -66,12 +67,15 @@ while(<IN>){
 			my $overlap_l = $array[2] - $array[1] + 1;
 			
 			next unless ($overlap_l >= $min_l * 0.8);
-			
-			$circ .= "$circ_id\;";
+			$tmp{$circ} = 1;
+			#$circ .= "$circ_id\;";
 		}
 		
 		if ($circ eq ""){
 			$circ = "NA";
+		}
+		else{
+			$circ = join (";", sort keys %tmp);
 		}
 		print "\t$circ";
 	}
