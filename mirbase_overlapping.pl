@@ -67,16 +67,15 @@ while(<IN>){
 			my $overlap_l = $array[2] - $array[1] + 1;
 			
 			next unless ($overlap_l >= $min_l * 0.8);
-			$tmp{$circ} = 1;
+			$tmp{$circ_id} = 1;
 			#$circ .= "$circ_id\;";
 		}
 		
+		$circ = join (";", sort keys %tmp);
 		if ($circ eq ""){
 			$circ = "NA";
 		}
-		else{
-			$circ = join (";", sort keys %tmp);
-		}
+		
 		print "\t$circ";
 	}
 	else{
