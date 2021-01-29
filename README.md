@@ -165,3 +165,6 @@ perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY7_vs_WT5.txt > GENECOUNTS.DA
 
 perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY3_vs_WT5.ANNO.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt
 perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY7_vs_WT5.ANNO.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt
+
+http://cbio.mskcc.org/microrna_data/manual.html
+miranda file1 file2 -en -25 -strict -out fileout 
