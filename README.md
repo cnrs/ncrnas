@@ -171,3 +171,4 @@ perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > c
 http://cbio.mskcc.org/microrna_data/manual.html
 miranda file1 file2 -en -25 -strict -out fileout 
 
+grep '>' targets.txt | sed -e 's/>//g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | sort -u > targets.tab
