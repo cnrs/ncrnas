@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use List::Util qw/max min sum maxstr minstr shuffle/;
 
 die "Usage: perl $0 mmu_mm9_circRNA.txt CIRC.ANNO.txt > CIRC.ANNO.CIRCBASE.txt\n" unless (@ARGV == 2);
 
