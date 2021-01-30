@@ -178,4 +178,8 @@ awk -F "\t" '($12 >= 0.584962501 || $12 <= -0.584962501) && $12 ne "NA" && $15 <
 awk -F "\t" '($12 >= 0.584962501 || $12 <= -0.584962501) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA" {print $1 "\t" $12 "\t" $15 "\t" $29}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt > DAY7_vs_WT5.CIRCBASE.txt
 
 
+perl join_list.pl DAY3_vs_WT5.CIRCBASE.txt targets.tab > DAY3_vs_WT5.MIR_TARGET.txt
+
+perl join_list.pl DAY7_vs_WT5.CIRCBASE.txt targets.tab > DAY7_vs_WT5.MIR_TARGET.txt
+
 
