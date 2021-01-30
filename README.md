@@ -173,9 +173,9 @@ miranda file1 file2 -en -25 -strict -out fileout
 
 grep '>' targets.txt | sed -e 's/>//g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | sort -u > targets.tab
 
-awk -F "\t" '$12 >= 1.5 || $12 <= -1.5 {print $1 "\t" $12 "\t" $29}' GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt > DAY3_vs_WT5.CIRCBASE.txt
+awk -F "\t" '$12 >= 0.584962501 || $12 <= -0.584962501 {print $1 "\t" $12 "\t" $29}' GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt > DAY3_vs_WT5.CIRCBASE.txt
 
-awk -F "\t" '$12 >= 1.5 || $12 <= -1.5 {print $1 "\t" $12 "\t" $29}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt > DAY7_vs_WT5.CIRCBASE.txt
+awk -F "\t" '$12 >= 0.584962501 || $12 <= -0.584962501 {print $1 "\t" $12 "\t" $29}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt > DAY7_vs_WT5.CIRCBASE.txt
 
 
 
