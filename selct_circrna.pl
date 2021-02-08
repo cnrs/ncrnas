@@ -7,7 +7,8 @@ use List::Util qw/max min sum maxstr minstr shuffle/;
 die "Usage: perl $0 CIRI.ciri FIND_CIRC.candidates.bed > CIRC.bed\n" unless (@ARGV == 2);
 
 my %hash = ();
-my $lens_cut = 3000;
+my %circs = ();
+my $lens_cut = 5000;
 my $cnt = 0;
 
 open (IN, "$ARGV[0]") || die "cannot open $ARGV[0]\n";
@@ -23,8 +24,10 @@ while(<IN>){
 	next unless ($circrna_s =~ /\d+/);
 	next if ($circrna_e - $circrna_s + 1> $lens_cut);
 	
-	#my $circ_pos = "$chromesome\:$strand";
-	push (@{$hash{$chromesome}}, [$circrna_s, $circrna_e, $strand]);
+	
+	my $circ = "$circrna_s\-$circrna_e";
+	push (@{$hash{$chromesome}{$strand}}, [$circrna_s, $circrna_e]);
+	$circs{$chromesome}{$strand}{$circ} = 0;
 	#warn "$chromesome, $circrna_s, $circrna_e, $strand\n";
 	$cnt ++;
 }
@@ -45,8 +48,9 @@ while(<IN>){
 	next unless ($circrna_s =~ /\d+/);
 	next if ($circrna_e - $circrna_s + 1> $lens_cut);
 	
-	my $circ_pos = "$chromesome\:$strand";
-	push (@{$hash{$chromesome}}, [$circrna_s, $circrna_e, $strand]);
+	my $circ = "$circrna_s\-$circrna_e";
+	push (@{$hash{$chromesome}{$strand}}, [$circrna_s, $circrna_e]);
+	$circs{$chromesome}{$strand}{$circ} = 0;
 	#warn "$chromesome, $circrna_s, $circrna_e, $strand\n";
 	$cnt ++;
 }
@@ -54,50 +58,72 @@ close(IN);
 
 warn "$cnt\n";
 
-# merge circRNAs
-# cover more that 90% sequences of shorter seuqences
-my %circs = ();
-my @tmp = ();
 
-my @array = ("+", "-");
-foreach my $strand (@array) {
-	foreach my $chromesome (keys %hash) {
-		foreach my $e (sort {$$a[0] <=> $$b[0]} @{$hash{$chromesome}}) {
-			my ($circrna_s, $circrna_e, $str) = ($$e[0], $$e[1], $$e[2]);
-			next unless ($strand eq $str);
-			my $circ_id = "$circrna_s\-$circrna_e\:$strand";
-			#warn "$circ_id\n";
-			unless (exists $circs{$chromesome}){
-				$circs{$chromesome}{$circ_id} = 1;
+my $adjacent_distance = 20;
+
+foreach my $chromesome (keys %hash) {
+	foreach my $strand (keys %{$hash{$chromesome}}) {
+		foreach my $e (sort {$$a[0] <=> $$b[0]} @{$hash{$chromesome}{$strand}}) {
+			my ($circrna_s, $circrna_e) = ($$e[0], $$e[1]);
+			
+			my $circ = "$circrna_s\-$circrna_e";
+			
+			unless (exists $circs{$chromesome}{$strand}{$circ}){
+				$circs{$chromesome}{$strand}{$circ} = 1;
 			}
 			
-			my $flag = 0;
-			foreach my $cis (keys %{$circs{$chromesome}}){
-				my ($c_s, $c_e, $c_r) = $cis =~ /^(\d+)\-(\d+)\:(\S)/;
-				next unless ($strand eq $c_r);
+			foreach my $cis (sort keys %{$circs{$chromesome}{$strand}}){
+				my ($c_s, $c_e) = $cis =~ /^(\d+)\-(\d+)$/;
+				next if ($circrna_s eq $c_s && $circrna_e eq $c_e);
 				
-				if (abs($circrna_s - $c_s) <= 10 && abs($circrna_e - $c_e) <= 10){
-					$flag = 1;
-					last;
+				if (abs($circrna_s - $c_s) <= $adjacent_distance && abs($circrna_e - $c_e) <= $adjacent_distance){
+					$circs{$chromesome}{$strand}{$circ} += 1;
 				}
 			}
 			
-			if ($flag == 0){
-				$circs{$chromesome}{$circ_id} = 1;
-			}
 		}
 	}
 }
 
+my %uni = ();
+
 print "chromesome\tcirc_start\tcirc_end\tcircrna_id\tlength\tstrand\n";
 foreach my $chromesome (keys %circs) {
-	foreach my $e (keys %{$circs{$chromesome}}) {
-		my ($circ_s, $circ_e, $strand) = $e =~ /^(\d+)\-(\d+)\:(\S)$/;
-		my $circrna_id = "$chromesome\:$circ_s\-$circ_e\:$strand";
-		my $lens = ($circ_e - $circ_s +1) / 1000;
+	foreach my $strand (keys %{$circs{$chromesome}}) {
 		
-		print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\t$lens\t$strand\n";
-		#sleep (1);
+		foreach my $circ (sort keys %{$circs{$chromesome}{$strand}}) {
+			$cnt = $circs{$chromesome}{$strand}{$circ};
+			next unless ($cnt >= 2);
+			
+			my ($circ_s, $circ_e) = $circ =~ /^(\d+)\-(\d+)$/;
+			my $circrna_id = "$chromesome\:$circ_s\-$circ_e\:$strand";
+			my $lens = ($circ_e - $circ_s + 1) / 1000;
+			
+			unless (exists $uni{$chromesome}{$strand}){
+				$uni{$chromesome}{$strand}{$circ} = 1;
+				print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\t$lens\t$strand\n";
+			}
+			else{
+				my $flag = 0;
+				foreach my $e (sort keys %{$uni{$chromesome}{$strand}}){
+					next if ($e eq $circ);
+					
+					my ($c_s, $c_e) = $e =~ /^(\d+)\-(\d+)$/;
+					if (abs($circ_s - $c_s) <= $adjacent_distance && abs($circ_e - $c_e) <= $adjacent_distance){
+						$flag = 1;
+						last;
+					}
+				}
+				
+				if ($flag == 0){
+					$uni{$chromesome}{$strand}{$circ} = 1;
+					print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\t$lens\t$strand\n";
+				}
+			}
+			
+			#print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\t$lens\t$strand\n";
+			#sleep (1);
+		}
 	}
 }
 
