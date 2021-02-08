@@ -65,7 +65,7 @@ foreach my $strand (@array) {
 		foreach my $e (sort {$$a[0] <=> $$b[0]} @{$hash{$chromesome}}) {
 			my ($circrna_s, $circrna_e, $str) = ($$e[0], $$e[1], $$e[2]);
 			next unless ($strand eq $str);
-			my $circ_id = "$circ_s_min\-$circ_e_max\:$strand";
+			my $circ_id = "$circrna_s\-$circrna_e\:$strand";
 			#warn "$circ_id\n";
 			unless (exists $circs{$chromesome}){
 				$circs{$chromesome}{$circ_id} = 1;
