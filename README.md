@@ -122,6 +122,8 @@ nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -
 
  awk '{print $2 "\t" $3 "\t" $4 "\tNAME\t.\t" $11 }'  CIRI.ciri >  CIRI.ciri.bed
  
+ perl exclude_bad_circrna.pl all.sam CIRI.ciri.bed > CIRI.ciri.bed.txt &
+ perl exclude_bad_circrna.pl all.sam FIND_CIRC.candidates.bed > FIND_CIRC.candidates.bed.txt &
 
 ll *.sam | awk '{print "samtools view -bS " $9 " > " $9 ".tmp  & sleep 1s"}'
 
