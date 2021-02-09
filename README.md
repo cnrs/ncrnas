@@ -107,7 +107,7 @@ grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS
 
 
 
-ll *_1.fq | awk '{print "nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 " $9 " -2 " $9 ".2 -S " $9 ".sam > " $9 ".txt 2>&1 & sleep 1s"}' | sed -e 's/_1.fq.2/_2.fq/g' | sed -e 's/_1.fq.sam/.sam/g' | sed -e 's/_1.fq.txt/.txt/g'
+ll *_1.fq | awk '{print "nohup bowtie2 -p 18 --trim5 5 --trim3 5 -I 0 -X 500 -x /usr/local/db/ucsc/mouse/mm9 -1 " $9 " -2 " $9 ".2 -S " $9 ".sam > " $9 ".txt 2>&1 & sleep 1s"}' | sed -e 's/_1.fq.2/_2.fq/g' | sed -e 's/_1.fq.sam/.sam/g' | sed -e 's/_1.fq.txt/.txt/g'
 
 nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 Day3_1_1.fq -2 Day3_1_2.fq -S Day3_1.sam > Day3_1.txt 2>&1 & sleep 1s
 nohup bowtie2 -p 18 --trim5 5 --trim3 5 -x /usr/local/db/ucsc/mouse/mm9 -1 Day3_2_1.fq -2 Day3_2_2.fq -S Day3_2.sam > Day3_2.txt 2>&1 & sleep 1s
