@@ -56,7 +56,7 @@ while(<IN>){
 	my $chromosome = $array[2];
 	next if ($chromosome eq "*");
 	
-	my $c_s        = $array[7];
+	my $c_s        = $array[3];
 	my $insert_size = $array[8]; #bowtie2
 	next if ($insert_size < 0);
 	
