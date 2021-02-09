@@ -86,8 +86,8 @@ sub find_unis {
 				unless (exists $uni{$chromesome}{$strand}){
 					$uni{$chromesome}{$strand}{$circ} = 1;
 					$cnt ++;
-					my $CIRCID = sprintf ("CIRC_06d%", $cnt);
-					print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\|$CIRCID\t$lens\t$strand\n";
+					my $CIRCID = sprintf ("%06d", $cnt);
+					print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\|CIRC\_$CIRCID\t$lens\t$strand\n";
 				}
 				else{
 					my $flag = 0;
@@ -104,8 +104,8 @@ sub find_unis {
 					if ($flag == 0){
 						$uni{$chromesome}{$strand}{$circ} = 1;
 						$cnt ++;
-						my $CIRCID = sprintf ("CIRC_06d%", $cnt);
-						print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\|$CIRCID\t$lens\t$strand\n";
+						my $CIRCID = sprintf ("%06d", $cnt);
+						print "$chromesome\t$circ_s\t$circ_e\t$circrna_id\|CIRC\_$CIRCID\t$lens\t$strand\n";
 					}
 				}
 				
