@@ -120,10 +120,10 @@ nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -
 nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -x /usr/local/db/ucsc/mouse/mm9 -1 WT5_2_1.fq -2 WT5_2_2.fq -S WT5_2.sam > WT5_2.txt 2>&1 & sleep 1s
 nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -x /usr/local/db/ucsc/mouse/mm9 -1 WT5_3_1.fq -2 WT5_3_2.fq -S WT5_3.sam > WT5_3.txt 2>&1 & sleep 1s
 
- awk '{print $2 "\t" $3 "\t" $4 "\tNAME\t.\t" $11 }'  CIRI.ciri >  CIRI.ciri.bed
+awk '{print $2 "\t" $3 "\t" $4 "\tNAME\t.\t" $11 }'  CIRI.ciri >  CIRI.ciri.bed
  
- perl exclude_bad_circrna.pl all.sam CIRI.ciri.bed > CIRI.ciri.bed.txt &
- perl exclude_bad_circrna.pl all.sam FIND_CIRC.candidates.bed > FIND_CIRC.candidates.bed.txt &
+perl exclude_bad_circrna.pl all.sam CIRI.ciri.bed > CIRI.ciri.bed.txt &
+perl exclude_bad_circrna.pl all.sam FIND_CIRC.candidates.bed > FIND_CIRC.candidates.bed.txt &
 
 ll *.sam | awk '{print "samtools view -bS " $9 " > " $9 ".tmp  & sleep 1s"}'
 
