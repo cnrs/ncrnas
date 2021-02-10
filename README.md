@@ -132,11 +132,11 @@ ll *.bam | awk '{print "samtools index " $9 " & sleep 1s"}'
 
 bedtools multicov -bams Day3_1.bam  Day3_2.bam  Day3_3.bam  Day7_1.bam  Day7_2.bam  Day7_3.bam WT5_1.bam  WT5_2.bam  WT5_3.bam -bed CIRC.bed > CIRC.tab  
   
-perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > CIRC.bed.anno.xls  
+perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > CIRC.BED.anno.xls  
   
-Rscript chippeakanno.R CIRC.bed  
+#Rscript chippeakanno.R CIRC.bed  
 
-awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15 "\n"}' CIRC.tab > CIRC.txt  
+awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15 "\n"}' CIRC.tab > CIRC.GENECOUNT.txt  
   
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY3_vs_WT5.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.txt  
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY7_vs_WT5.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.txt  
