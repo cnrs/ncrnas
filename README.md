@@ -101,7 +101,8 @@ awk '{print $2 "\t" $3 "\t" $4 "\tNAME\t.\t" $11 }'  CIRI.ciri >  CIRI.ciri.bed
    
 perl exclude_bad_circrna.pl all.sam CIRI.ciri.bed > CIRI.ciri.bed.txt &  
 perl exclude_bad_circrna.pl all.sam FIND_CIRC.candidates.bed > FIND_CIRC.candidates.bed.txt &  
-  
+
+# circRNA表达分析与注释
 ll *.sam | awk '{print "samtools view -bS " $9 " > " $9 ".tmp  & sleep 1s"}'  
   
 samtools view -bS Day3_1.sam > Day3_1.sam.tmp  & sleep 1s  
@@ -127,7 +128,7 @@ samtools sort -o WT5_2.bam WT5_2.sam.tmp & sleep 1s
 samtools sort -o WT5_3.bam WT5_3.sam.tmp & sleep 1s  
   
 ll *.bam | awk '{print "samtools index " $9 " & sleep 1s"}'  
-  
+
 bedtools multicov -bams Day3_1.bam  Day3_2.bam  Day3_3.bam  Day7_1.bam  Day7_2.bam  Day7_3.bam WT5_1.bam  WT5_2.bam  WT5_3.bam -bed CIRC.bed > CIRC.tab  
   
 perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > CIRC.bed.anno.xls  
@@ -141,7 +142,8 @@ perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY7_vs_WT5.txt > GENECOUNTS.DA
 
 perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY3_vs_WT5.ANNO.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt  
 perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY7_vs_WT5.ANNO.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt  
-  
+
+# circRNA target预测
 perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > circRNAs.fa  
   
 http://cbio.mskcc.org/microrna_data/manual.html  
