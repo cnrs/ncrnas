@@ -4,7 +4,7 @@ use warnings;
 use List::Util qw/max min sum maxstr minstr shuffle/;
 
 
-die "Usage: perl $0 CIRI.ciri FIND_CIRC.candidates.bed > CIRC.bed\n" unless (@ARGV == 2);
+die "Usage: perl $0 CIRI.ciri.bed.txt FIND_CIRC.candidates.bed.txt > CIRC.bed\n" unless (@ARGV == 2);
 
 my %hash = ();
 my %circs = ();
@@ -15,13 +15,12 @@ my $cnt = 0;
 open (IN, "$ARGV[0]") || die "cannot open $ARGV[0]\n";
 while(<IN>){
 	chomp;
-	#circRNA_ID      chr     circRNA_start   circRNA_end     #junction_reads SM_MS_SMS       #non_junction_reads     junction_reads_ratio circRNA_type    gene_id strand  junction_reads_ID
+	#chr1    4772649 4774186 chr1:4772649-4774186:-|CIRC_000001      1.538   -
 	my @array = split (/\t/, $_);
-	#my $circrna_id = $array[0];
-	my $chromosome = $array[1];
-	my $circrna_s  = $array[2];
-	my $circrna_e  = $array[3];
-	my $strand     = $array[10];
+	my $chromosome = $array[0];
+	my $circrna_s  = $array[1];
+	my $circrna_e  = $array[2];
+	my $strand     = $array[5];
 	next unless ($circrna_s =~ /\d+/);
 	next if ($circrna_e - $circrna_s + 1 > $lens_cut);
 	
