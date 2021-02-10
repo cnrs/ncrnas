@@ -83,6 +83,7 @@ find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=sampl
   
 grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | maxlength.py 100000 > find_circ.candidates.bed  
 
+# 过滤低丰度的circRNA
 ll *_1.fq | awk '{print "nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -x /usr/local/db/ucsc/mouse/mm9 -1 " $9 " -2 " $9 ".2 -S " $9 ".sam > " $9 ".txt 2>&1 & sleep 1s"}' | sed -e 's/_1.fq.2/_2.fq/g' | sed -e 's/_1.fq.sam/.sam/g' | sed -e 's/_1.fq.txt/.txt/g'  
   
 nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -x /usr/local/db/ucsc/mouse/mm9 -1 Day3_1_1.fq -2 Day3_1_2.fq -S Day3_1.sam > Day3_1.txt 2>&1 & sleep 1s  
