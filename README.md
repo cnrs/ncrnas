@@ -136,8 +136,10 @@ perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > 
   
 #Rscript chippeakanno.R CIRC.bed  
 
-awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15 "\n"}' CIRC.tab > CIRC.GENECOUNT.txt  
-  
+awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15}' CIRC.tab > 1 
+echo "GENEID" $'\t' "Day3_1" $'\t' "Day3_2" $'\t' "Day3_3" $'\t' "Day7_1" $'\t' "Day7_2" $'\t' "Day7_3" $'\t' "WT5_1" $'\t' "WT5_2" $'\t' "WT5_3" > 2  
+cat 1 2 > CIRC.GENECOUNT.txt 
+
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY3_vs_WT5.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.txt  
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY7_vs_WT5.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.txt  
 
