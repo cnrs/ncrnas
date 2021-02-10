@@ -101,6 +101,7 @@ awk '{print $2 "\t" $3 "\t" $4 "\tNAME\t.\t" $11 }'  CIRI.ciri >  CIRI.ciri.bed
    
 perl exclude_bad_circrna.pl all.sam CIRI.ciri.bed > CIRI.ciri.bed.txt &  
 perl exclude_bad_circrna.pl all.sam FIND_CIRC.candidates.bed > FIND_CIRC.candidates.bed.txt &  
+perl selct_circrna.pl CIRI.ciri.bed.txt FIND_CIRC.candidates.bed.txt > CIRC.bed &  
 
 # circRNA表达分析与注释
 ll *.sam | awk '{print "samtools view -bS " $9 " > " $9 ".tmp  & sleep 1s"}'  
