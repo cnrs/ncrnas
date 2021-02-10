@@ -136,7 +136,7 @@ perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > 
   
 #Rscript chippeakanno.R CIRC.bed  
 
-echo "GENEID" $'\t' "Day3_1" $'\t' "Day3_2" $'\t' "Day3_3" $'\t' "Day7_1" $'\t' "Day7_2" $'\t' "Day7_3" $'\t' "WT5_1" $'\t' "WT5_2" $'\t' "WT5_3" > 1  
+echo "GENEID"$'\t'"Day3_1"$'\t'"Day3_2"$'\t'"Day3_3"$'\t'"Day7_1"$'\t'"Day7_2"$'\t'"Day7_3"$'\t'"WT5_1"$'\t'"WT5_2"$'\t'"WT5_3" > 1  
 awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15}' CIRC.tab > 2  
 cat 1 2 > CIRC.GENECOUNT.txt  
 
