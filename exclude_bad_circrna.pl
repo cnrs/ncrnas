@@ -107,10 +107,11 @@ while(<IN>){
 	
 	if ($c_num / ($circrna_e - $circrna_s + 1) >= $cov_p){
 		$cnt ++;
-		my $lens = ($circrna_e - $circrna_s + 1) / 1000;
+		#my $lens = ($circrna_e - $circrna_s + 1) / 1000;
+		my $score = sprintf ("%.2f", $c_num / ($circrna_e - $circrna_s + 1));
 		my $circrna_id = "$chromosome\:$circrna_s\-$circrna_e\:$strand";
 		my $CIRCID = sprintf ("%06d", $cnt);
-		print "$chromosome\t$circrna_s\t$circrna_e\t$circrna_id\|CIRC\_$CIRCID\t$lens\t$strand\n";
+		print "$chromosome\t$circrna_s\t$circrna_e\t$circrna_id\|CIRC\_$CIRCID\t$score\t$strand\n";
 	}
 }
 close(IN);
