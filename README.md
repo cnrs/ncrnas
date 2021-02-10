@@ -6,7 +6,7 @@ conda create -n circrna python=2.7
 conda activate circrna  
 conda install samtools hisat2 bwa bowtie2 pysam numpy  
   
-# BEWA的使用流程  
+# BWA的使用流程  
 1.建立 Index  
 $ bwa index -a bwtsw mm9.fa  
   
