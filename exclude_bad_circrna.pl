@@ -8,7 +8,7 @@ die "Usage: perl $0 CIRC.sam CIRC.bed > CIRC.bed.good\n" unless (@ARGV == 2);
 
 my %hash = ();
 my @array = ();
-my $cov_n = 10;
+my $cov_n = 2;
 my $cov_p = 0.8;
 
 open (IN, "$ARGV[0]") || die "cannot open $ARGV[0]\n";
@@ -72,7 +72,7 @@ while(<IN>){
 	
 	for (my $i = $c_s; $i <= $c_e; $i ++){
 		unless (exists $hash{$chromosome}{$i}){
-			$hash{$chromosome}{$i} = 0;
+			$hash{$chromosome}{$i} = 1;
 		}
 		else{
 			$hash{$chromosome}{$i} ++;
