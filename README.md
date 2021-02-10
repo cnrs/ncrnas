@@ -1,26 +1,25 @@
-# https://www.jianshu.com/p/9ab92efc286a  
-# https://www.cnblogs.com/cangqinglang/p/10238882.html    
+#https://www.jianshu.com/p/9ab92efc286a  
+#https://www.cnblogs.com/cangqinglang/p/10238882.html    
   
-# circrna  
+# circrna环境安装  
 conda create -n circrna python=2.7  
 conda activate circrna  
 conda install samtools hisat2 bwa bowtie2 pysam numpy  
   
-# bwa的使用流程  
+# BEWA的使用流程  
 1.建立 Index  
 $ bwa index -a bwtsw mm9.fa  
   
 2.对reads进行mapping  
-  
-cat Day3_1_1.fq  Day3_2_1.fq  Day3_3_1.fq  Day7_1_1.fq  Day7_2_1.fq  Day7_3_1.fq  WT5_1_1.fq  WT5_2_1.fq  WT5_3_1.fq > all_clean_1.fq & sleep 1s  
-cat Day3_1_2.fq  Day3_2_2.fq  Day3_3_2.fq  Day7_1_2.fq  Day7_2_2.fq  Day7_3_2.fq  WT5_1_2.fq  WT5_2_2.fq  WT5_3_2.fq > all_clean_2.fq & sleep 1s  
+cat Day3_1_1.fq Day3_2_1.fq Day3_3_1.fq Day7_1_1.fq Day7_2_1.fq Day7_3_1.fq WT5_1_1.fq WT5_2_1.fq WT5_3_1.fq > all_clean_1.fq & sleep 1s  
+cat Day3_1_2.fq Day3_2_2.fq Day3_3_2.fq Day7_1_2.fq Day7_2_2.fq Day7_3_2.fq WT5_1_2.fq WT5_2_2.fq WT5_3_2.fq > all_clean_2.fq & sleep 1s  
   
 bwa mem -t 36 /usr/local/db/ucsc/mouse/mm9.fa all_clean_1.fq all_clean_2.fq > all_clean_s.sam  
   
-# BWA用法：  
+## BWA用法：  
 https://blog.csdn.net/weixin_43569478/article/details/108079100  
   
-CIRI:  
+## CIRI:  
 https://sourceforge.net/projects/ciri/files/CIRI2/CIRI_v2.0.6.zip  
   
 perl CIRI.pl -I in.sam -O output.ciri -F ref.fa  
@@ -30,10 +29,10 @@ bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mo
 samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp  
 samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp  
   
-# find_circ:  
+## find_circ:  
 https://github.com/marvin-jens/find_circ  
   
-# 使用文档：  
+## 使用文档：  
 https://www.cnblogs.com/yanjiamin/p/11973687.html  
   
 bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_index -q -1 reads1.fq -2 reads2.fq | samtools view -hbuS - | samtools sort - -o output.bam  
@@ -44,7 +43,7 @@ bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_inde
 2 /path/to/unmapped2anchors.py unmapped.bam | gzip > anchors.fq.gz  
    
   
-#6.根据anchor比对基因组情况寻找潜在的circRNA  
+# 6.根据anchor比对基因组情况寻找潜在的circRNA  
   
 ###find_circ.py参数介绍###  
   
@@ -66,32 +65,24 @@ bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_inde
 grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | /path/to/maxlength.py 100000 > find_circ.candidates.bed  
    
   
-#7.分析多个样本  
+# 7.分析多个样本  
   
 #如果有多个样本，需要分别用find_circ.py运行，然后将各自的结果合并  
 1 /path/to/merge_bed.py sample1.bed sample2.bed [...] >combined.bed  
   
   
 bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mouse/mm9 -q -1 all_clean_1.fq -2 all_clean_2.fq -S all_bowtie2.sam  
-  
 samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp  
-  
 samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp  
-  
-  
+
 samtools view -hf 4 all_bowtie2.bam | samtools view -Sb - > unmapped.bam  
-  
 unmapped2anchors.py unmapped.bam | gzip > anchors.fq.gz  
-  
 bowtie2 -p 36 --score-min=C,-15,0 --reorder --mm -q -U anchors.fq.gz -x /usr/local/db/ucsc/mouse/mm9 -S CIRI.sam  
   
 find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa < CIRI.sam > find_circ/splice_sites.bed  
   
 grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | maxlength.py 100000 > find_circ.candidates.bed  
-  
-  
-  
-  
+
 ll *_1.fq | awk '{print "nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -x /usr/local/db/ucsc/mouse/mm9 -1 " $9 " -2 " $9 ".2 -S " $9 ".sam > " $9 ".txt 2>&1 & sleep 1s"}' | sed -e 's/_1.fq.2/_2.fq/g' | sed -e 's/_1.fq.sam/.sam/g' | sed -e 's/_1.fq.txt/.txt/g'  
   
 nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -x /usr/local/db/ucsc/mouse/mm9 -1 Day3_1_1.fq -2 Day3_1_2.fq -S Day3_1.sam > Day3_1.txt 2>&1 & sleep 1s  
@@ -141,14 +132,12 @@ bedtools multicov -bams Day3_1.bam  Day3_2.bam  Day3_3.bam  Day7_1.bam  Day7_2.b
 perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > CIRC.bed.anno.xls  
   
 Rscript chippeakanno.R CIRC.bed  
-  
-  
+
 awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15 "\n"}' CIRC.tab > CIRC.txt  
   
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY3_vs_WT5.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.txt  
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY7_vs_WT5.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.txt  
-  
-  
+
 perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY3_vs_WT5.ANNO.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt  
 perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY7_vs_WT5.ANNO.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt  
   
