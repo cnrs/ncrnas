@@ -97,6 +97,9 @@ while(<IN>){
 	
 	my $c_num = 0;
 	for (my $i = $circrna_s; $i <= $circrna_e; $i ++){
+		unless (exists $hash{$chromosome}{$i}){
+			$hash{$chromosome}{$i} = 0;
+		}
 		if ($hash{$chromosome}{$i} >= $cov_n){
 			$c_num ++;
 		}
