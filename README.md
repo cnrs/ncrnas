@@ -1,61 +1,53 @@
+#https://www.jianshu.com/p/9ab92efc286a
+
 # circrna
 
-conda create -n circrna python=2.7
+. conda create -n circrna python=2.7
+. conda activate circrna
+. conda install samtools hisat2 bwa bowtie2 pysam numpy
 
-conda activate circrna
+  1.文本1
+  2.文本2
 
-conda install samtools hisat2 bwa bowtie2 pysam numpy
-
-
-
-
-
-bwa的使用流程
+# bwa的使用流程
 1.建立 Index
 $ bwa index -a bwtsw mm9.fa
 
 2.对reads进行mapping
 
 cat Day3_1_1.fq  Day3_2_1.fq  Day3_3_1.fq  Day7_1_1.fq  Day7_2_1.fq  Day7_3_1.fq  WT5_1_1.fq  WT5_2_1.fq  WT5_3_1.fq > all_clean_1.fq & sleep 1s
-
 cat Day3_1_2.fq  Day3_2_2.fq  Day3_3_2.fq  Day7_1_2.fq  Day7_2_2.fq  Day7_3_2.fq  WT5_1_2.fq  WT5_2_2.fq  WT5_3_2.fq > all_clean_2.fq & sleep 1s
 
 bwa mem -t 36 /usr/local/db/ucsc/mouse/mm9.fa all_clean_1.fq all_clean_2.fq > all_clean_s.sam
 
-BWA用法：
+# BWA用法：
 https://blog.csdn.net/weixin_43569478/article/details/108079100
 
 CIRI:
 https://sourceforge.net/projects/ciri/files/CIRI2/CIRI_v2.0.6.zip
 
 perl CIRI.pl -I in.sam -O output.ciri -F ref.fa
-
 perl CIRI2.pl -T 36 -I all_clean.sam -O CIRI.ciri -F /usr/local/db/ucsc/mouse/mm9.fa
-
 bowtie2-build --threads 36 mm9.fa mm9 
-
 bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mouse/mm9 -q -1 all_clean_1.fq -2 all_clean_2.fq -S all_bowtie2.sam
-
 samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp
-
 samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp
 
-find_circ:
+# find_circ:
 https://github.com/marvin-jens/find_circ
 
-使用文档：
+# 使用文档：
 https://www.cnblogs.com/yanjiamin/p/11973687.html
 
-
- bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_index -q -1 reads1.fq -2 reads2.fq | samtools view -hbuS - | samtools sort - -o output.bam
+bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_index -q -1 reads1.fq -2 reads2.fq | samtools view -hbuS - | samtools sort - -o output.bam
  
 
-5.挑出没有比对上的序列，各取两头20bp短序列（anchor)
+# 5.挑出没有比对上的序列，各取两头20bp短序列（anchor)
 1 samtools view -hf 4 output.bam | samtools view -Sb - > unmapped.bam
 2 /path/to/unmapped2anchors.py unmapped.bam | gzip > anchors.fq.gz
  
 
-6.根据anchor比对基因组情况寻找潜在的circRNA
+#6.根据anchor比对基因组情况寻找潜在的circRNA
 
 ###find_circ.py参数介绍###
 
@@ -69,19 +61,15 @@ https://www.cnblogs.com/yanjiamin/p/11973687.html
 ###根据以下规则对结果进行筛选
 
 1.根据关键词CIRCULAR筛选环状RNA
-
 2.去除线粒体上的环状RNA
-
 3.筛选unique junction reads数至少为2的环状RNA
-
 4.去除断裂点不明确的环状RNA
-
 5.过滤掉长度大于100kb的circRNA,这里的100kb为基因组长度，直接用环状RNA的头尾相减即可
 
 grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | /path/to/maxlength.py 100000 > find_circ.candidates.bed
  
 
-7.分析多个样本
+#7.分析多个样本
 
 #如果有多个样本，需要分别用find_circ.py运行，然后将各自的结果合并
 1 /path/to/merge_bed.py sample1.bed sample2.bed [...] >combined.bed
@@ -173,14 +161,11 @@ http://cbio.mskcc.org/microrna_data/manual.html
 miranda file1 file2 -en -25 -strict -out fileout 
 
 grep '>' targets.txt | sed -e 's/>//g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | sort -u > targets.tab
-
 awk -F "\t" '($12 >= 0.584962501 || $12 <= -0.584962501) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA" {print $1 "\t" $12 "\t" $15 "\t" $29}' GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt > DAY3_vs_WT5.CIRCBASE.txt
-
 awk -F "\t" '($12 >= 0.584962501 || $12 <= -0.584962501) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA" {print $1 "\t" $12 "\t" $15 "\t" $29}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt > DAY7_vs_WT5.CIRCBASE.txt
 
 
 perl join_list.pl DAY3_vs_WT5.CIRCBASE.txt targets.tab > DAY3_vs_WT5.MIR_TARGET.txt
-
 perl join_list.pl DAY7_vs_WT5.CIRCBASE.txt targets.tab > DAY7_vs_WT5.MIR_TARGET.txt
 
 
