@@ -16,7 +16,7 @@ while(<IN>){
 	my $chromesome = "";
 	#next unless ($circrna_s =~ /\d+/);
 	#chr10:10452447-10452958:+
-	if ($s =~ /^(\S+)\:(\d+\-\d+\:\S)\s+/){
+	if ($s =~ /^(\S+)\:(\d+\-\d+\:\S)\|/){
 		$chromesome = $1;
 		$circ       = $2;
 		$hash{$chromesome}{$circ} = 1;
