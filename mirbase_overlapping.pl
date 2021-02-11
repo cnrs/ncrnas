@@ -43,7 +43,7 @@ while(<IN>){
 	if ($s =~ /^GENEID\s+/){
 		print "\tcircBase_ID";
 	}
-	elsif ($s =~ /^(\S+)\:(\d+)\-(\d+)\:(\S)\s+/){
+	elsif ($s =~ /^(\S+)\:(\d+)\-(\d+)\:(\S)\|/){
 		my $chromosome = $1;
 		my $circ_s     = $2;
 		my $circ_e     = $3;
