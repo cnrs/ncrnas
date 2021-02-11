@@ -142,7 +142,7 @@ echo "GENEID"$'\t'"Day3_1"$'\t'"Day3_2"$'\t'"Day3_3"$'\t'"Day7_1"$'\t'"Day7_2"$'
 awk '{print $4 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 "\t" $13 "\t" $14 "\t" $15}' CIRC.tab > 2  
 cat 1 2 > CIRC.GENECOUNT.txt  
 
-diffExp.R  
+Rscipt diffExp.R  
 
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY3_vs_WT5.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.txt  
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY7_vs_WT5.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.txt  
@@ -153,6 +153,12 @@ perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY7_vs_WT5.ANN
 
 awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA" {print $1 "\t" $12 "\t" $15 "\t" $29}' GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt > DEG.DAY3_vs_WT5.txt  
 awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA" {print $1 "\t" $12 "\t" $15 "\t" $29}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt > DEG.DAY7_vs_WT5.txt  
+
+awk -F "\t" '{print $1 "\t" $12 "\t" $16 "\t" $25 "\t" $28 "\t" $29}' GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt |head -n 1 > DEG.DAY3_vs_WT5.txt  
+awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $16 <= 0.05 && $16 ne "NA" {print $1 "\t" $12 "\t" $16 "\t" $25 "\t" $28 "\t" $29}' GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt >> DEG.DAY3_vs_WT5.txt  
+
+awk -F "\t" '{print $1 "\t" $12 "\t" $16 "\t" $25 "\t" $28 "\t" $29}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt |head -n 1 > DEG.DAY7_vs_WT5.txt  
+awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $16 <= 0.05 && $16 ne "NA" {print $1 "\t" $12 "\t" $16 "\t" $25 "\t" $28 "\t" $29}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt >> DEG.DAY7_vs_WT5.txt  
 
 
 # circRNA target预测
