@@ -154,7 +154,7 @@ perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY7_vs_WT5.ANN
 perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > circRNAs.fa  
   
 http://cbio.mskcc.org/microrna_data/manual.html  
-miranda file1 file2 -en -25 -strict -out fileout   
+miranda mmu.fa circRNAs.fa -en -25 -strict -out targets.txt   
   
 grep '>' targets.txt | sed -e 's/>//g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | sort -u > targets.tab  
 awk -F "\t" '($12 >= 0.584962501 || $12 <= -0.584962501) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA" {print $1 "\t" $12 "\t" $15 "\t" $29}' GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt > DAY3_vs_WT5.CIRCBASE.txt  
