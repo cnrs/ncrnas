@@ -133,7 +133,9 @@ ll *.bam | awk '{print "samtools index " $9 " & sleep 1s"}'
 bedtools multicov -bams Day3_1.bam  Day3_2.bam  Day3_3.bam  Day7_1.bam  Day7_2.bam  Day7_3.bam WT5_1.bam  WT5_2.bam  WT5_3.bam -bed CIRC.bed > CIRC.tab  
   
 perl /usr/local/.prog/anaconda/envs/chipseq/bin/annotatePeaks.pl CIRC.bed mm9 > CIRC.BED.anno.xls  
-  
+sed -e 's/PeakID (cmd=annotatePeaks.pl CIRC.bed mm9)/GENEID/g' CIRC.BED.ANNO.xls > CIRC.BED.ANNO.xls.1  
+mv CIRC.BED.ANNO.xls.1 CIRC.BED.ANNO.xls  
+
 #Rscript chippeakanno.R CIRC.bed  
 
 echo "GENEID"$'\t'"Day3_1"$'\t'"Day3_2"$'\t'"Day3_3"$'\t'"Day7_1"$'\t'"Day7_2"$'\t'"Day7_3"$'\t'"WT5_1"$'\t'"WT5_2"$'\t'"WT5_3" > 1  
