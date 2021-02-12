@@ -147,6 +147,8 @@ Rscipt diffExp.R
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY3_vs_WT5.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.txt  
 perl ../merge.pl ../CIRC.bed.anno.xls GENECOUNTS.DAY7_vs_WT5.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.txt  
 
+perl mirbase_overlapping.pl mmu_mm9_circRNA.txt CIRC.BED.ANNO.xls > CIRC.BED.ANNO.CIRCBASE.txt  
+
 perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY3_vs_WT5.ANNO.txt > GENECOUNTS.DAY3_vs_WT5.ANNO.CIRCBASE.txt  
 perl ../mirbase_overlapping.pl ../mmu_mm9_circRNA.txt GENECOUNTS.DAY7_vs_WT5.ANNO.txt > GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt  
 
