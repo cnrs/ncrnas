@@ -19,14 +19,15 @@ while(<IN>){
 	my $circ = $array[0];
 	my $lgfc = $array[11];
 	my $gene = $array[24];
-	my $type = $array[25];
-	my $hits = $array[24];
+	my $type = $array[27];
+	my $hits = $array[28];
 	$circ =~ s/\|\S+$//g;
 	
 	$hash{$circ} = "$array[0]\t$lgfc\t$gene\t$type\t$hits";
 }
 close(IN);
 
+print "miRNA\tcircRNA\tlog2FC\tsymbol\type\tcircbase\n";
 open (IN, "$ARGV[1]") || die "cannot open $ARGV[1]\n";
 while(<IN>){
 	chomp;
