@@ -22,6 +22,7 @@ while(<IN>){
 	my $type = $array[27];
 	my $hits = $array[28];
 	$circ =~ s/\|\S+$//g;
+	next unless ($type eq "protein-coding");
 	
 	$hash{$circ} = "$array[0]\t$lgfc\t$gene\t$type\t$hits";
 }
