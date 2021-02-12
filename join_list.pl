@@ -27,7 +27,7 @@ while(<IN>){
 }
 close(IN);
 
-print "miRNA\tcircRNA\tlog2FC\tsymbol\type\tcircbase\n";
+print "miRNA\tcircRNA\tlog2FC\tsymbol\ttype\tcircbase\n";
 open (IN, "$ARGV[1]") || die "cannot open $ARGV[1]\n";
 while(<IN>){
 	chomp;
