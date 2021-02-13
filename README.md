@@ -167,8 +167,8 @@ awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA
 
 
 # 功能分析
-grep 'protein-coding' DEG.DAY3_vs_WT5.txt | awk -F "\t" '{print $25}' > DEG.txt  
-grep 'protein-coding' DEG.DAY7_vs_WT5.txt | awk -F "\t" '{print $25}' > DEG.txt  
+grep 'protein-coding' DEG.DAY3_vs_WT5.txt | awk -F "\t" '{print $25}' | sort -u > DEG.txt  
+grep 'protein-coding' DEG.DAY7_vs_WT5.txt | awk -F "\t" '{print $25}' | sort -u > DEG.txt  
 
 
 # circRNA target预测
