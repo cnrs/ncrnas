@@ -165,6 +165,12 @@ awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA
 awk -F "\t" '{print}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt |head -n 1 > DEG.DAY7_vs_WT5.txt  
 awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA" {print}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt >> DEG.DAY7_vs_WT5.txt  
 
+
+# 功能分析
+grep 'protein-coding' DEG.DAY3_vs_WT5.txt | awk -F "\t" '{print $25}' > DEG.txt  
+grep 'protein-coding' DEG.DAY7_vs_WT5.txt | awk -F "\t" '{print $25}' > DEG.txt  
+
+
 # circRNA target预测
 perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > circRNAs.fa  
   
