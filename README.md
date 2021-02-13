@@ -192,3 +192,8 @@ sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {pri
 
 
 circos -conf circos.conf  
+
+perl ../degree.pl DAY3_vs_WT5.MIR_TARGET.txt | sort -r -nk 2,2 > DAY3_vs_WT5.MIR_TARGET.degree  
+perl ../degree.pl DAY7_vs_WT5.MIR_TARGET.txt | sort -r -nk 2,2 > DAY7_vs_WT5.MIR_TARGET.degree  
+
+
