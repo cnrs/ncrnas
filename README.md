@@ -188,3 +188,4 @@ sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $
 sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $12}' |grep -v GENEID > CIRC.WT5_2.txt  
 sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $13}' |grep -v GENEID > CIRC.WT5_3.txt  
 
+circos -conf circos.conf
