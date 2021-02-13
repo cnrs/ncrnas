@@ -179,15 +179,16 @@ perl join_list.pl DEG.DAY7_vs_WT5.txt targets.tab > DAY7_vs_WT5.MIR_TARGET.txt
 
 # circos
 
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $5}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_1.txt  
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $6}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_2.txt  
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $7}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_3.txt  
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $8}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY7_1.txt  
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $9}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY7_2.txt  
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $10}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY7_3.txt  
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $11}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.WT5_1.txt  
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $12}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.WT5_2.txt  
-sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $13}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.WT5_3.txt  
+
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $5}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_1.txt  
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $6}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_2.txt  
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $7}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_3.txt  
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $8}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY7_1.txt  
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $9}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY7_2.txt  
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $10}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY7_3.txt  
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $11}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.WT5_1.txt  
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $12}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.WT5_2.txt  
+sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $13}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.WT5_3.txt  
 
 
 circos -conf circos.conf  
