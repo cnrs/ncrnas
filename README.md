@@ -177,9 +177,9 @@ perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > c
 http://cbio.mskcc.org/microrna_data/manual.html  
 miranda mmu.fa circRNAs.fa -en -25 -strict -out targets.txt   
 
-echo "Seq1,Seq2,Score,Energy (kCal/Mol),QueryStart,QueryEnd,RefStart,RefEnd,AlignLen,AlignIdentity(non-GT),AlignIdentity(GT)" > t.1
-grep '>' targets.txt | grep -v '>>' | sed -e 's/>//g' | sort -u > t.2
-cat t.1 t.2 > targets.tab 
+echo "Seq1,Seq2,Score,Energy (kCal/Mol),QueryStart,QueryEnd,RefStart,RefEnd,AlignLen,AlignIdentity(non-GT),AlignIdentity(GT)" > t.1  
+grep '>' targets.txt | grep -v '>>' | sed -e 's/>//g' | sort -u > t.2  
+cat t.1 t.2 > targets.csv  
 rm t.2
   
 #grep '>>' targets.txt | sed -e 's/>//g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | sort -u > targets.tab  
