@@ -177,7 +177,7 @@ perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > c
 http://cbio.mskcc.org/microrna_data/manual.html  
 miranda mmu.fa circRNAs.fa -en -25 -strict -out targets.txt   
   
-grep '>' targets.txt | sed -e 's/>//g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | sort -u > targets.tab  
+grep '>>' targets.txt | sed -e 's/>//g' | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | sort -u > targets.tab  
   
 perl join_list.pl DEG.DAY3_vs_WT5.txt targets.tab > DAY3_vs_WT5.MIR_TARGET.txt  
 perl join_list.pl DEG.DAY7_vs_WT5.txt targets.tab > DAY7_vs_WT5.MIR_TARGET.txt  
