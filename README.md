@@ -8,6 +8,9 @@ conda activate lncrna
 conda install samtools hisat2 bwa bowtie2 pysam numpy
 conda install -c bioconda miranda
 ```
+# circBase
+
+http://www.circbase.org/
 
 # BWA的使用流程  
 1.建立 Index  
