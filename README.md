@@ -200,6 +200,9 @@ grep 'protein-coding' DEG.DAY7_vs_WT5.txt | awk -F "\t" '{print $25}' | sort -u 
 ```
 #只提取特定的miRNAs:
 perl ext_fasta_list.pl list.txt mature.fa > mature.mirna.fa
+perl ext_fasta_chr_coordinates.pl /usr/local/db/ucsc/human/hg19.fa coors.txt > circrna.fa
+
+
 
 perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > circRNAs.fa  
 
