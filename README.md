@@ -2,10 +2,12 @@
 #https://www.cnblogs.com/cangqinglang/p/10238882.html    
   
 # circrna环境安装  
+```
 conda create -n circrna python=2.7  
 conda activate circrna  
 conda install samtools hisat2 bwa bowtie2 pysam numpy  
-  
+```
+
 # BWA的使用流程  
 1.建立 Index  
 $ bwa index -a bwtsw mm9.fa  
