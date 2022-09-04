@@ -12,6 +12,9 @@ conda install -c bioconda miranda
 
 http://www.circbase.org/
 
+http://www.circbase.org/download/hsa_hg19_circRNA.txt
+
+
 # BWA的使用流程  
 1.建立 Index  
 $ bwa index -a bwtsw mm9.fa  
