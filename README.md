@@ -15,6 +15,8 @@ http://www.circbase.org/
 
 http://www.circbase.org/download/hsa_hg19_circRNA.txt
 
+http://www.circbase.org/download/human_hg19_circRNAs_putative_spliced_sequence.fa.gz
+
 
 # BWA的使用流程  
 1.建立 Index  
@@ -63,7 +65,7 @@ bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_inde
 ```
   
 # 6.根据anchor比对基因组情况寻找潜在的circRNA  
-  
+
 ###find_circ.py参数介绍###  
   
 #--prefix参数指定的是spliced_sites.bed文件中第四列内容的前缀，建议指定为物种对应的三字母缩写，需要注意的是，在spliced_sites_bed中同时包含了环状RNA和线性RNA,环状RNA的名称用circ标识，线性RNA的名称用norm标识，这里设置为--prefix=hsa_  
@@ -130,7 +132,7 @@ perl selct_circrna.pl CIRI.ciri.bed.txt FIND_CIRC.candidates.bed.txt > CIRC.bed 
 # circRNA表达分析与注释
 ```
 ll *.sam | awk '{print "samtools view -bS " $9 " > " $9 ".tmp  & sleep 1s"}'  
-  
+
 samtools view -bS Day3_1.sam > Day3_1.sam.tmp  & sleep 1s  
 samtools view -bS Day3_2.sam > Day3_2.sam.tmp  & sleep 1s  
 samtools view -bS Day3_3.sam > Day3_3.sam.tmp  & sleep 1s  
