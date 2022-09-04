@@ -53,7 +53,8 @@ https://github.com/marvin-jens/find_circ
 ## 使用文档：  
 https://www.cnblogs.com/yanjiamin/p/11973687.html  
 ```
-bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_index -q -1 reads1.fq -2 reads2.fq | samtools view -hbuS - | samtools sort - -o output.bam  ```
+bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_index -q -1 reads1.fq -2 reads2.fq | samtools view -hbuS - | samtools sort - -o output.bam  
+```
   
 # 5.挑出没有比对上的序列，各取两头20bp短序列（anchor)  
 ```
