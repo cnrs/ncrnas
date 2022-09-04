@@ -29,10 +29,12 @@ cat Day3_1_2.fq Day3_2_2.fq Day3_3_2.fq Day7_1_2.fq Day7_2_2.fq Day7_3_2.fq WT5_
 
 bwa mem -t 36 /usr/local/db/ucsc/mouse/mm9.fa all_clean_1.fq all_clean_2.fq > all_clean_s.sam  
 ```
+
 ## BWA用法：  
 https://blog.csdn.net/weixin_43569478/article/details/108079100  
   
-## CIRI:  
+## CIRI:
+```
 https://sourceforge.net/projects/ciri/files/CIRI2/CIRI_v2.0.6.zip  
   
 perl CIRI.pl -I in.sam -O output.ciri -F ref.fa  
@@ -41,7 +43,8 @@ bowtie2-build --threads 36 mm9.fa mm9
 bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mouse/mm9 -q -1 all_clean_1.fq -2 all_clean_2.fq -S all_bowtie2.sam  
 samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp  
 samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp  
-  
+```
+
 ## find_circ:
 ```
 https://github.com/marvin-jens/find_circ  
@@ -195,8 +198,11 @@ grep 'protein-coding' DEG.DAY7_vs_WT5.txt | awk -F "\t" '{print $25}' | sort -u 
 
 # circRNA target预测
 ```
+#只提取特定的miRNAs:
+perl ext_fasta_list.pl list.txt mature.fa > mature.mirna.fa
+
 perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > circRNAs.fa  
-  
+
 http://cbio.mskcc.org/microrna_data/manual.html  
 miranda mmu.fa circRNAs.fa -en -25 -strict -out targets.txt   
 
