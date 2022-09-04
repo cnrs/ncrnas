@@ -8,6 +8,7 @@ conda activate lncrna
 conda install samtools hisat2 bwa bowtie2 pysam numpy
 conda install -c bioconda miranda
 ```
+
 # circBase
 
 http://www.circbase.org/
@@ -17,14 +18,17 @@ http://www.circbase.org/download/hsa_hg19_circRNA.txt
 
 # BWA的使用流程  
 1.建立 Index  
+```
 $ bwa index -a bwtsw mm9.fa  
-  
+```
+
 2.对reads进行mapping  
+```
 cat Day3_1_1.fq Day3_2_1.fq Day3_3_1.fq Day7_1_1.fq Day7_2_1.fq Day7_3_1.fq WT5_1_1.fq WT5_2_1.fq WT5_3_1.fq > all_clean_1.fq & sleep 1s  
 cat Day3_1_2.fq Day3_2_2.fq Day3_3_2.fq Day7_1_2.fq Day7_2_2.fq Day7_3_2.fq WT5_1_2.fq WT5_2_2.fq WT5_3_2.fq > all_clean_2.fq & sleep 1s  
-  
+
 bwa mem -t 36 /usr/local/db/ucsc/mouse/mm9.fa all_clean_1.fq all_clean_2.fq > all_clean_s.sam  
-  
+```
 ## BWA用法：  
 https://blog.csdn.net/weixin_43569478/article/details/108079100  
   
@@ -38,19 +42,21 @@ bowtie2 -p 36 --very-sensitive --score-min=C,-15,0 --mm -x /usr/local/db/ucsc/mo
 samtools view -hbuS all_bowtie2.sam > all_bowtie2.sam.tmp  
 samtools sort -o all_bowtie2.bam all_bowtie2.sam.tmp  
   
-## find_circ:  
+## find_circ:
+```
 https://github.com/marvin-jens/find_circ  
-  
+```
+
 ## 使用文档：  
 https://www.cnblogs.com/yanjiamin/p/11973687.html  
-  
-bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_index -q -1 reads1.fq -2 reads2.fq | samtools view -hbuS - | samtools sort - -o output.bam  
-   
+```
+bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_index -q -1 reads1.fq -2 reads2.fq | samtools view -hbuS - | samtools sort - -o output.bam  ```
   
 # 5.挑出没有比对上的序列，各取两头20bp短序列（anchor)  
+```
 1 samtools view -hf 4 output.bam | samtools view -Sb - > unmapped.bam  
 2 /path/to/unmapped2anchors.py unmapped.bam | gzip > anchors.fq.gz  
-   
+```
   
 # 6.根据anchor比对基因组情况寻找潜在的circRNA  
   
@@ -70,13 +76,15 @@ bowtie2 -p 16 --very-sensitive --score-min=C,-15,0 --mm -x /path/to/bowtie2_inde
 3.筛选unique junction reads数至少为2的环状RNA  
 4.去除断裂点不明确的环状RNA  
 5.过滤掉长度大于100kb的circRNA,这里的100kb为基因组长度，直接用环状RNA的头尾相减即可  
-  
+
+```
 grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | /path/to/maxlength.py 100000 > find_circ.candidates.bed  
-   
+```
   
 # 7.分析多个样本  
   
 #如果有多个样本，需要分别用find_circ.py运行，然后将各自的结果合并  
+```
 1 /path/to/merge_bed.py sample1.bed sample2.bed [...] >combined.bed  
   
   
@@ -91,8 +99,10 @@ bowtie2 -p 36 --score-min=C,-15,0 --reorder --mm -q -U anchors.fq.gz -x /usr/loc
 find_circ.py --genome=/usr/local/db/ucsc/mouse/mm9.fa --prefix=mm9_ --name=sample --stats=find_circ/stats.txt --reads=find_circ/spliced_reads.fa < CIRI.sam > find_circ/splice_sites.bed  
   
 grep CIRCULAR spliced_sites.bed | grep -v chrM | gawk '$5>=2' | grep UNAMBIGUOUS_BP | grep ANCHOR_UNIQUE | maxlength.py 100000 > find_circ.candidates.bed  
+```
 
 # 过滤低丰度的circRNA
+```
 ll *_1.fq | awk '{print "nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -x /usr/local/db/ucsc/mouse/mm9 -1 " $9 " -2 " $9 ".2 -S " $9 ".sam > " $9 ".txt 2>&1 & sleep 1s"}' | sed -e 's/_1.fq.2/_2.fq/g' | sed -e 's/_1.fq.sam/.sam/g' | sed -e 's/_1.fq.txt/.txt/g'  
   
 nohup bowtie2 -p 18 --trim5 0 --trim3 0 -I 0 -X 500 --no-mixed --no-discordant -x /usr/local/db/ucsc/mouse/mm9 -1 Day3_1_1.fq -2 Day3_1_2.fq -S Day3_1.sam > Day3_1.txt 2>&1 & sleep 1s  
@@ -111,8 +121,10 @@ awk '{print $2 "\t" $3 "\t" $4 "\tNAME\t.\t" $11 }'  CIRI.ciri >  CIRI.ciri.bed
 perl exclude_bad_circrna.pl all.sam CIRI.ciri.bed > CIRI.ciri.bed.txt &  
 perl exclude_bad_circrna.pl all.sam FIND_CIRC.candidates.bed > FIND_CIRC.candidates.bed.txt &  
 perl selct_circrna.pl CIRI.ciri.bed.txt FIND_CIRC.candidates.bed.txt > CIRC.bed &  
+```
 
 # circRNA表达分析与注释
+```
 ll *.sam | awk '{print "samtools view -bS " $9 " > " $9 ".tmp  & sleep 1s"}'  
   
 samtools view -bS Day3_1.sam > Day3_1.sam.tmp  & sleep 1s  
@@ -173,14 +185,16 @@ awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA
 
 awk -F "\t" '{print}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt |head -n 1 > DEG.DAY7_vs_WT5.txt  
 awk -F "\t" '($12 >= 1 || $12 <= -1) && $12 ne "NA" && $15 <= 0.05 && $15 ne "NA" {print}' GENECOUNTS.DAY7_vs_WT5.ANNO.CIRCBASE.txt >> DEG.DAY7_vs_WT5.txt  
-
+```
 
 # 功能分析
+```
 grep 'protein-coding' DEG.DAY3_vs_WT5.txt | awk -F "\t" '{print $25}' | sort -u > DEG.txt  
 grep 'protein-coding' DEG.DAY7_vs_WT5.txt | awk -F "\t" '{print $25}' | sort -u > DEG.txt  
-
+```
 
 # circRNA target预测
+```
 perl ext_fasta_regions.pl CIRC.GENECOUNT.txt /usr/local/db/ucsc/mouse/mm9.fa > circRNAs.fa  
   
 http://cbio.mskcc.org/microrna_data/manual.html  
@@ -195,11 +209,11 @@ rm t.2
   
 perl join_list.pl DEG.DAY3_vs_WT5.txt targets.tab > DAY3_vs_WT5.MIR_TARGET.txt  
 perl join_list.pl DEG.DAY7_vs_WT5.txt targets.tab > DAY7_vs_WT5.MIR_TARGET.txt  
-
+```
 
 # circos
 
-
+```
 sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $5}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_1.txt  
 sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $6}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_2.txt  
 sed -e 's/:/\t/g' CIRC.GENECOUNT.txt | sed -e 's/-/\t/g' | awk '$5 <= 50000 {print $1 "\t" $2 "\t" $3 "\t" $7}' |sed -e 's/chr/mm/g' | grep -v GENEID > CIRC.DAY3_3.txt  
@@ -215,5 +229,5 @@ circos -conf circos.conf
 
 perl ../degree.pl DAY3_vs_WT5.MIR_TARGET.txt | sort -r -nk 2,2 > DAY3_vs_WT5.MIR_TARGET.degree  
 perl ../degree.pl DAY7_vs_WT5.MIR_TARGET.txt | sort -r -nk 2,2 > DAY7_vs_WT5.MIR_TARGET.degree  
-
+```
 
