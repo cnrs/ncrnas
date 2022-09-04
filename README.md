@@ -3,9 +3,10 @@
   
 # circrna环境安装  
 ```
-conda create -n circrna python=2.7  
-conda activate circrna  
-conda install samtools hisat2 bwa bowtie2 pysam numpy  
+conda create -n lncrna python=2.7
+conda activate lncrna
+conda install samtools hisat2 bwa bowtie2 pysam numpy
+conda install -c bioconda miranda
 ```
 
 # BWA的使用流程  
