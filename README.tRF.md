@@ -1,5 +1,6 @@
 # Biochemical properties and progress in cancers of tRNA-derived fragments
 
+使用conda安装运行环境
 ```
 conda create -n ncrnas
 conda activate ncrnas
