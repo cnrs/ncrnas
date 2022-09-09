@@ -2,8 +2,8 @@
 
 使用conda安装运行环境
 ```
-conda create -n ncrnas
-conda activate ncrnas
+conda create -n rnas
+conda activate rnas
 conda install curl=7.64.0 cutadapt=1.18 fastqc=0.11.9 ghostscript=9.22 libgit2=0.27.8 numpy=1.15.4 openssl=1.0.2u pandoc=2.10 pip=20.1.1 pigz=2.3.4 python=2.7.15 r=3.5.1 r-boot=1.3_20 r-checkpoint=0.4.4 r-class=7.3_14 r-cluster=2.0.7_1 r-codetools=0.2_15 r-curl=3.2 r-deployrrserve=9.0.0 r-doparallel=1.0.13 r-foreach=1.5.0 r-foreign=0.8_70 r-iterators=1.0.10 r-jsonlite=1.5 r-kernsmooth=2.23_15 r-lattice=0.20_35 r-mass=7.3_49 r-matrix=1.2_14 r-mgcv=1.8_23 r-microsoftr=3.5.0.108 r-nlme=3.1_137 r-nnet=7.3_12 r-png=0.1_7 r-r6=2.2.2 r-recommended=3.5.1 r-revoioq=10.0.0 r-revomods=11.0.0 r-revoutils=11.0.0 r-revoutilsmath=11.0.0 r-rpart=4.1_13 r-runit=0.4.26 r-spatial=7.3_11 r-survival=2.41_3 samtools=1.9 star=2.5.2b subread=2.0.1=hed695b0_0 trim-galore=0.4.1 
 ```
 
