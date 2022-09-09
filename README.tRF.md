@@ -6,6 +6,10 @@ https://pubmed.ncbi.nlm.nih.gov/31674076/
 tsRNAsearch
 https://github.com/GiantSpaceRobot/tsRNAsearch
 
+nextflow run tsRNAsearch --species mouse --input_dir tsRNAsearch/ExampleData --output_dir Results
+
+
+
 tRF-seed-match:
 https://github.com/ritianjiang/tRF-seed-match
 tRNA-derived fragment is a kind of small-RNA, which may play the same role with miRNA. Here we proposed this repositry to perform the seed matching for tRFs to 3'UTR.
@@ -58,3 +62,4 @@ https://pubmed.ncbi.nlm.nih.gov/27015120/
 
 GtRNAdb Genomic tRNA Database 
 http://gtrnadb.ucsc.edu/
+
