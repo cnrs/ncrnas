@@ -47,3 +47,9 @@ tRF&tiRNA的定义及分类
        tRF-1：来源于前体tRNA的3’-UTR区域，3’末端含有多聚U序列。
        i-tRF：区别于以上3种类型，主要来自成熟tRNA的内部区域。
       
+tRFdb
+http://genome.bioch.virginia.edu/trfdb/
+https://pubmed.ncbi.nlm.nih.gov/25270025/
+
+A comprehensive repertoire of tRNA-derived fragments in prostate cancer
+https://pubmed.ncbi.nlm.nih.gov/27015120/
